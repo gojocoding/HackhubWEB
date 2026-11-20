@@ -1,0 +1,71 @@
+package it.unicam.hackhub.auth.service;
+
+import it.unicam.hackhub.auth.security.JwtUtil;
+import it.unicam.hackhub.model.User;
+import it.unicam.hackhub.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class AuthService {
+
+    private final UserRepository userRepo;
+    private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthService(
+            UserRepository userRepo,
+            JwtUtil jwtUtil,
+            PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional
+    public User register(String id, String username, String name,
+                         String surname, String email, String password) {
+
+        boolean exists = userRepo.existsByEmailOrUsername(email, username);
+
+        if (exists) {
+            throw new IllegalStateException("Email o username già registrati");
+        }
+
+        String hashedPassword = passwordEncoder.encode(password);
+
+        User user = new User(
+                id,
+                name,
+                surname,
+                username,
+                email,
+                hashedPassword,
+                null
+        );
+
+        userRepo.save(user);
+
+        return user;
+    }
+
+    @Transactional(readOnly = true)
+    public String login(String username, String password) {
+
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("User non trovato"));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalStateException("Password errata");
+        }
+
+        String role = "USER";
+
+        return jwtUtil.generateToken(user.getId(), role);
+    }
+
+    public String validateToken(String token) {
+        return jwtUtil.validateAndGetUserId(token);
+    }
+}
