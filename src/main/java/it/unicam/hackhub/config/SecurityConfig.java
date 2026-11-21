@@ -1,6 +1,6 @@
 package it.unicam.hackhub.config;
 
-import it.unicam.hackhub.auth.JwtUtil;
+import it.unicam.hackhub.auth.security.JwtUtil;
 import it.unicam.hackhub.auth.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +30,12 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendError(401, "Non autenticato")
+                        )
                 )
 
                 .authorizeHttpRequests(auth -> auth
@@ -56,16 +63,7 @@ public class SecurityConfig {
 
 
 
-
-
-
-
-
-
-
-
-
-
+/*
 
 
 
@@ -197,7 +195,5 @@ public class SecurityConfig {
                         .anyRequest().permitAll() 
                 );
         return http.build();
-    }*/
-}
-
+    }
 */

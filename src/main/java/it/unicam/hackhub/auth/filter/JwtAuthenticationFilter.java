@@ -1,6 +1,6 @@
 package it.unicam.hackhub.auth.filter;
 
-import it.unicam.hackhub.auth.JwtUtil;
+import it.unicam.hackhub.auth.security.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,6 +48,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
 
         } catch (Exception e) {
             SecurityContextHolder.clearContext();
