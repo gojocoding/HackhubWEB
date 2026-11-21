@@ -44,7 +44,7 @@ public class AuthService {
                 hashedPassword,
                 null
         );
-
+        user.setRole("USER");
         userRepo.save(user);
 
         return user;

@@ -55,7 +55,7 @@ public class HackhubApplication {
                         new User("user-14", "laura", "Ferrari", "c", "lauraferrari@unicam.it", hashedPassword, "IT10X4444254254444"),
                         new User("user-15", "giuseppe", "Ferrari", "giuse", "giuseppeferrari@unicam.it", hashedPassword, "IT10X4444415144")
                 );
-
+                mockUsers.get(0).setRole("ADMIN");
                 userRepository.saveAll(mockUsers);
                 System.out.println(">>> 15 utenti mock inseriti con successo!");
             }

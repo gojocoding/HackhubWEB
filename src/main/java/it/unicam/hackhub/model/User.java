@@ -17,7 +17,7 @@ public class User {
     private String email;
     private String password;
     private String paymentInfo;
-
+    private String role = "USER";
     
     public User() {
     }
@@ -50,6 +50,13 @@ public class User {
     public void setEmail(String email) { this.email = email; }
     public void setPassword(String password) { this.password = password; }
     public void setPaymentInfo(String paymentInfo) { this.paymentInfo = paymentInfo; }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public boolean equals(Object o) {
