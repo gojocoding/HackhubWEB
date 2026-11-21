@@ -54,10 +54,11 @@ public class AuthService {
     public String login(String username, String password) {
 
         User user = userRepo.findByUsername(username)
-                .orElseThrow(() -> new IllegalStateException("User non trovato"));
+                .orElseThrow(() ->
+                        new IllegalStateException("Credenziali non valide"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalStateException("Password errata");
+            throw new IllegalStateException("Credenziali non valide");
         }
 
         String role = "USER";
