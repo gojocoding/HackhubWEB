@@ -61,8 +61,8 @@ public class AuthService {
             throw new IllegalStateException("Credenziali non valide");
         }
 
-        String role = "USER";
-
+        String role = user.getRole();
+        System.out.println("Ruolo utente autenticato: " + role);
         return jwtUtil.generateToken(user.getId(), role);
     }
 

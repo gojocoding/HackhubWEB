@@ -44,4 +44,13 @@ public class JwtUtil {
 
         return claims.getSubject();
     }
+    public String validateAndGetRole(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.get("role", String.class);
+    }
 }
