@@ -21,8 +21,8 @@ export class Login {
   onLogin(): void {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        console.log('Login completato!');
-        console.log('Token ricevuto:', response.token);
+        sessionStorage.setItem('token', response.token);
+        console.log('Login completato! Token salvato.');
       },
       error: (error) => {
         console.error('Errore durante il login:', error);
