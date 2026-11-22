@@ -1,10 +1,32 @@
+
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth';
 
 @Component({
-  imports: [RouterLink],
   selector: 'app-login',
-  styleUrl: './login.css',
+  imports: [RouterLink, FormsModule],
   templateUrl: './login.html',
+  styleUrl: './login.css',
 })
-export class Login {}
+export class Login {
+
+  username = '';
+  password = '';
+
+  constructor(private authService: AuthService) {
+  }
+
+  onLogin(): void {
+    this.authService.login(this.username, this.password).subscribe({
+      next: (response) => {
+        console.log('Login completato!');
+        console.log('Token ricevuto:', response.token);
+      },
+      error: (error) => {
+        console.error('Errore durante il login:', error);
+      }
+    });
+  }
+}
