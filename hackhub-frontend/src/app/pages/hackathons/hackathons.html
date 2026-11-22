@@ -1,0 +1,42 @@
+
+<div class="hackathons-page">
+
+  <header class="page-header">
+    <a routerLink="/" class="logo">Hack<span>hub</span></a>
+    <h1>Esplora gli Hackathon</h1>
+    <p>Scopri le sfide, trova nuove opportunità e mettiti alla prova!</p>
+  </header>
+
+  @if (loading) {
+  <p class="message">Caricamento degli hackathon...</p>
+  }
+
+  @if (error) {
+  <p class="error-message">{{ error }}</p>
+  }
+
+  @if (!loading && !error) {
+  <div class="hackathons-grid">
+
+    @for (hackathon of hackathons; track hackathon.id) {
+    <div class="hackathon-card">
+
+      <h2>{{ hackathon.name }}</h2>
+
+      <p>{{ hackathon.specifications }}</p>
+
+      <span class="status">
+            {{ hackathon.state?.name }}
+          </span>
+
+    </div>
+    }
+
+    @empty {
+    <p>Nessun hackathon disponibile.</p>
+    }
+
+  </div>
+  }
+
+</div>
