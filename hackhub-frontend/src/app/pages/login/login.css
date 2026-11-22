@@ -1,0 +1,127 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(99, 102, 241, 0.18), transparent 45%),
+    #0b1020;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 45px;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 18px;
+  background: #141e35;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.logo {
+  display: inline-block;
+  margin-bottom: 30px;
+  color: #f8fafc;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-decoration: none;
+}
+
+.logo span {
+  color: #8b5cf6;
+}
+
+.login-card h1 {
+  margin: 0 0 10px;
+  color: #f8fafc;
+  font-size: 30px;
+}
+
+.subtitle {
+  margin-bottom: 35px;
+  color: #aab4ca;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 9px;
+  color: #dbe3f5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  outline: none;
+  background: #0b1020;
+  color: #f8fafc;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+.form-group input::placeholder {
+  color: #71809d;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+}
+
+.register-link {
+  margin-top: 28px;
+  color: #aab4ca;
+  font-size: 13px;
+}
+
+.register-link a {
+  color: #a78bfa;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  color: white;
+}
+
+@media (max-width: 500px) {
+  .login-card {
+    padding: 35px 25px;
+  }
+}
