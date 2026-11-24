@@ -144,3 +144,38 @@
   outline: 3px solid rgba(101, 88, 211, 0.3);
   outline-offset: 3px;
 }
+
+
+.logout-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+  margin-bottom: 10px;
+}
+.logout-button {
+  background: white;
+  color: #6558d3;
+  border: 1px solid #6558d3;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #6558d3;
+  color: white;
+  box-shadow: 0 4px 12px rgba(101, 88, 211, 0.2);
+  transform: translateY(-2px);
+}
+
+.logout-button:active {
+  transform: translateY(0);
+}
+
+.logout-button:focus-visible {
+  outline: 3px solid rgba(101, 88, 211, 0.3);
+  outline-offset: 3px;
+}
