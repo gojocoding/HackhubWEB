@@ -34,4 +34,20 @@ export class AuthService {
       { responseType: 'text' }
     );
   }
+  getUserRole(): string | null {
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const payload = token.split('.')[1];
+      const decodedPayload = JSON.parse(atob(payload));
+
+      return decodedPayload.role;
+    } catch {
+      return null;
+    }
+  }
 }

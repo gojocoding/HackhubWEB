@@ -25,7 +25,11 @@ export class Login {
       next: (response) => {
         sessionStorage.setItem('token', response.token);
         console.log('Login completato! Token salvato.');
+        sessionStorage.setItem('token', response.token);
 
+        console.log('Ruolo utente:', this.authService.getUserRole());
+
+        this.router.navigate(['/hackathons']);
         this.router.navigate(['/hackathons']);
       },
       error: (error) => {
