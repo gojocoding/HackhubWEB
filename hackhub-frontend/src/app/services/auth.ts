@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -19,6 +18,20 @@ export class AuthService {
         username: username,
         password: password
       }
+    );
+  }
+  register(user: {
+    name: string;
+    surname: string;
+    username: string;
+    email: string;
+    password: string;
+    paymentInfo: string;
+  }): Observable<string> {
+    return this.http.post(
+      `${this.apiUrl}/register`,
+      user,
+      { responseType: 'text' }
     );
   }
 }

@@ -6,6 +6,7 @@ import it.unicam.hackhub.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -35,8 +36,10 @@ public class AuthService {
 
         String hashedPassword = passwordEncoder.encode(password);
 
+        String newId = UUID.randomUUID().toString();
+
         User user = new User(
-                id,
+                newId,
                 name,
                 surname,
                 username,
@@ -62,7 +65,6 @@ public class AuthService {
         }
 
         String role = user.getRole();
-        System.out.println("Ruolo utente autenticato: " + role);
         return jwtUtil.generateToken(user.getId(), role);
     }
 

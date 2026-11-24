@@ -101,7 +101,10 @@ public class HackathonController {
             return ResponseEntity.badRequest().body("ERRORE: " + e.getMessage());
         }
     }
-
+    @GetMapping
+    public ResponseEntity<List<Hackathon>> getAllHackathons() {
+        return ResponseEntity.ok(hackathonService.getAllHackathons());
+    }
     @PutMapping("/hackathons/winner")
     public ResponseEntity<String> proclaimWinner(@RequestBody HackathonController.AssociationPayload payload) {
         try {
