@@ -1,6 +1,6 @@
 
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HackathonService } from '../../services/hackathon';
 import { AuthService } from '../../services/auth';
 
@@ -20,15 +20,15 @@ export class Hackathons implements OnInit {
   constructor(
     private hackathonService: HackathonService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
-    console.log('Ruolo nella pagina Hackathons:', this.userRole);
+
     this.hackathonService.getAllHackathons().subscribe({
       next: (data) => {
-        console.log('Hackathon ricevuti:', data);
         this.hackathons = data;
         this.loading = false;
         this.cdr.detectChanges();
@@ -40,5 +40,35 @@ export class Hackathons implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  editHackathonName(hackathon: any): void {
+    const newName = prompt(
+      'Inserisci il nuovo nome dell’hackathon:',
+      hackathon.name
+    );
+
+    if (newName === null || newName.trim() === '') {
+      return;
+    }
+
+    this.hackathonService.updateHackathonName(
+      hackathon.id,
+      newName.trim()
+    ).subscribe({
+      next: () => {
+        hackathon.name = newName.trim();
+        this.cdr.detectChanges();
+        alert('Nome hackathon aggiornato con successo!');
+      },
+      error: (err) => {
+        console.error('Errore modifica hackathon:', err);
+        alert('Impossibile modificare il nome dell’hackathon.');
+      }
+    });
+  }
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

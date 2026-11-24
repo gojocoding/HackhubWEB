@@ -7,13 +7,11 @@
     <p>Scopri le sfide, trova nuove opportunità e mettiti alla prova!</p>
   </header>
 
-  @if (userRole === 'ADMIN') {
-  <div class="admin-actions">
-    <button class="create-button">
-      + Crea Hackathon
+  <div class="logout-container">
+    <button class="logout-button" (click)="logout()">
+      Esci
     </button>
   </div>
-  }
 
   @if (loading) {
   <p class="message">Caricamento degli hackathon...</p>
@@ -29,7 +27,17 @@
     @for (hackathon of hackathons; track hackathon.id) {
     <div class="hackathon-card">
 
-      <h2>{{ hackathon.name }}</h2>
+      <div class="hackathon-card-header">
+        <h2>{{ hackathon.name }}</h2>
+
+        @if (userRole === 'ADMIN') {
+        <button
+          class="edit-button"
+          (click)="editHackathonName(hackathon)">
+          Modifica nome
+        </button>
+        }
+      </div>
 
       <p>{{ hackathon.specifications }}</p>
 

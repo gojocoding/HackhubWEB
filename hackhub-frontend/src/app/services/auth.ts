@@ -34,6 +34,11 @@ export class AuthService {
       { responseType: 'text' }
     );
   }
+
+  logout(): void {
+    sessionStorage.removeItem('token');
+  }
+
   getUserRole(): string | null {
     const token = sessionStorage.getItem('token');
 
