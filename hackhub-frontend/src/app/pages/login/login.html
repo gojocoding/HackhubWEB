@@ -32,6 +32,11 @@
       <button type="submit" class="login-button">Accedi</button>
     </form>
 
+    @if (errorMessage) {
+    <p class="error-message" role="alert">
+      {{ errorMessage }}
+    </p>
+    }
     <p class="register-link">
       Non hai ancora un account?
       <a routerLink="/register">Registrati</a>

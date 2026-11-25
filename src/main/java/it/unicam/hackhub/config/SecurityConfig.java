@@ -15,6 +15,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
+import jakarta.servlet.DispatcherType;
 import java.util.List;
 
 @Configuration
@@ -44,10 +46,17 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(
                                 "/api/auth/register",
                                 "/api/auth/login"
                         ).permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/hackathons/*/name"
+                        ).hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
 

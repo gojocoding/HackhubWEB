@@ -35,16 +35,11 @@ public class AuthController {
         }
     }
 
-    
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginPayload payload) {
-        try {
-            String token = authService.login(payload.getUsername(), payload.getPassword());
-            
-            return ResponseEntity.ok(Map.of("token", token));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("ERRORE: " + e.getMessage());
-        }
+        String token = authService.login(payload.getUsername(), payload.getPassword());
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
    

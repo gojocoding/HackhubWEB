@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class HackathonService {
@@ -55,6 +56,20 @@ public class HackathonService {
     }
 
     @Transactional
+    public Hackathon updateHackathonName(String hackathonId, String newName) {
+
+        if (newName == null || newName.isBlank()) {
+            throw new IllegalArgumentException("Il nome non può essere vuoto");
+        }
+
+        Hackathon hackathon = getById(hackathonId);
+
+        hackathon.setName(newName.trim());
+
+        return repo.save(hackathon);
+    }
+
+    @Transactional
     public void addTeamToHackathon(String hackathonId, String teamId) {
         Hackathon hackathon = repo.findById(hackathonId)
                 .orElseThrow(() -> new IllegalStateException("Hackathon non trovato"));
@@ -89,7 +104,7 @@ public class HackathonService {
     @Transactional(readOnly = true)
     public Hackathon getById(String id) {
         return repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Hackathon non trovato"));
+                .orElseThrow(() -> new NoSuchElementException("Hackathon non trovato"));
     }
 
     @Transactional

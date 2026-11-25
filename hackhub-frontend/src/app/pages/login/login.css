@@ -125,3 +125,13 @@
     padding: 35px 25px;
   }
 }
+
+.error-message {
+  margin-top: 18px;
+  color: #fca5a5;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-align: center;
+}

@@ -105,6 +105,23 @@ public class HackathonController {
     public ResponseEntity<List<Hackathon>> getAllHackathons() {
         return ResponseEntity.ok(hackathonService.getAllHackathons());
     }
+
+    @PutMapping("/{hackathonId}/name")
+    public ResponseEntity<String> updateHackathonName(
+            @PathVariable String hackathonId,
+            @RequestBody HackathonNamePayload payload) {
+
+            Hackathon updated = hackathonService.updateHackathonName(
+                    hackathonId,
+                    payload.getName()
+            );
+
+            return ResponseEntity.ok(
+                    "Nome hackathon aggiornato: " + updated.getName()
+            );
+
+        }
+
     @PutMapping("/hackathons/winner")
     public ResponseEntity<String> proclaimWinner(@RequestBody HackathonController.AssociationPayload payload) {
         try {
@@ -186,5 +203,16 @@ public class HackathonController {
         public void setHackathonId(String hackathonId) { this.hackathonId = hackathonId; }
         public String getTeamId() { return teamId; }
         public void setTeamId(String teamId) { this.teamId = teamId; }
+    }
+    public static class HackathonNamePayload {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

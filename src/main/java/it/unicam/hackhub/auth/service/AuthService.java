@@ -3,6 +3,7 @@ package it.unicam.hackhub.auth.service;
 import it.unicam.hackhub.auth.security.JwtUtil;
 import it.unicam.hackhub.model.User;
 import it.unicam.hackhub.repository.UserRepository;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,10 +59,10 @@ public class AuthService {
 
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() ->
-                        new IllegalStateException("Credenziali non valide"));
+                        new BadCredentialsException("Credenziali non valide"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalStateException("Credenziali non valide");
+            throw new BadCredentialsException("Credenziali non valide");
         }
 
         String role = user.getRole();
