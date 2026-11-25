@@ -6,6 +6,9 @@ import it.unicam.hackhub.model.Submission;
 import it.unicam.hackhub.service.HackathonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -109,7 +112,7 @@ public class HackathonController {
     @PutMapping("/{hackathonId}/name")
     public ResponseEntity<String> updateHackathonName(
             @PathVariable String hackathonId,
-            @RequestBody HackathonNamePayload payload) {
+            @Valid @RequestBody HackathonNamePayload payload) {
 
             Hackathon updated = hackathonService.updateHackathonName(
                     hackathonId,
@@ -205,6 +208,9 @@ public class HackathonController {
         public void setTeamId(String teamId) { this.teamId = teamId; }
     }
     public static class HackathonNamePayload {
+
+        @NotBlank(message = "Il nome dell'hackathon è obbligatorio")
+        @Size(min = 2, max = 20, message = "Il nome deve contenere tra 2 e 20 caratteri")
         private String name;
 
         public String getName() {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth';
@@ -17,13 +17,17 @@ export class Register {
   email = '';
   password = '';
   paymentInfo = '';
+  errorMessage = '';
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   onRegister(): void {
+    this.errorMessage = '';
+
     this.authService.register({
       name: this.name,
       surname: this.surname,
@@ -38,7 +42,17 @@ export class Register {
       },
       error: (error) => {
         console.error('Errore durante la registrazione:', error);
+
+        if (error.status === 400) {
+          this.errorMessage = 'I dati inseriti non sono validi o l’utente esiste già.';
+        } else if (error.status === 0) {
+          this.errorMessage = 'Impossibile contattare il server. Riprova più tardi.';
+        } else {
+          this.errorMessage = 'Si è verificato un errore durante la registrazione.';
+        }
+        this.cdr.markForCheck();
       }
     });
+
   }
 }

@@ -95,10 +95,20 @@
   text-align: center;
   color: #697386;
 }
-
 .error-message {
+  max-width: 600px;
+  margin: 25px auto;
+  padding: 18px 22px;
+  border: 2px solid #dc2626;
+  border-left: 7px solid #b91c1c;
+  border-radius: 10px;
+  background: #fecaca;
+  color: #7f1d1d;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.5;
   text-align: center;
-  color: #d93025;
+  box-shadow: 0 5px 16px rgba(185, 28, 28, 0.2);
 }
 
 @media (max-width: 600px) {

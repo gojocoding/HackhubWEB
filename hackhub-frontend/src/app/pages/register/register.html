@@ -80,6 +80,12 @@
 
     </form>
 
+    @if (errorMessage) {
+    <p class="error-message" role="alert">
+      {{ errorMessage }}
+    </p>
+    }
+
     <p class="login-link">
       Hai già un account?
       <a routerLink="/login">Accedi</a>

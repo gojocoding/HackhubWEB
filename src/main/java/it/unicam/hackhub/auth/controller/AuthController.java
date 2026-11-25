@@ -4,6 +4,10 @@ import it.unicam.hackhub.model.User;
 import it.unicam.hackhub.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.Map;
 
@@ -19,25 +23,25 @@ public class AuthController {
 
    
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterPayload payload) {
-        try {
-            User user = authService.register(
-                    payload.getId(), 
-                    payload.getUsername(), 
-                    payload.getName(), 
-                    payload.getSurname(), 
-                    payload.getEmail(), 
-                    payload.getPassword()
-            );
-            return ResponseEntity.ok("Registrazione completata: " + user.getUsername());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("ERRORE: " + e.getMessage());
-        }
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterPayload payload) {
+
+        User user = authService.register(
+                payload.getId(),
+                payload.getUsername(),
+                payload.getName(),
+                payload.getSurname(),
+                payload.getEmail(),
+                payload.getPassword()
+        );
+
+        return ResponseEntity.ok(
+                "Registrazione completata: " + user.getUsername()
+        );
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginPayload payload) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginPayload payload) {
         String token = authService.login(payload.getUsername(), payload.getPassword());
         return ResponseEntity.ok(Map.of("token", token));
     }
@@ -45,10 +49,22 @@ public class AuthController {
    
     public static class RegisterPayload {
         private String id;
+
+        @NotBlank(message = "Lo username è obbligatorio")
         private String username;
+
+        @NotBlank(message = "Il nome è obbligatorio")
         private String name;
+
+        @NotBlank(message = "Il cognome è obbligatorio")
         private String surname;
+
+        @NotBlank(message = "L'email è obbligatoria")
+        @Email(message = "Inserisci un indirizzo email valido")
         private String email;
+
+        @NotBlank(message = "La password è obbligatoria")
+        @Size(min = 8, message = "La password deve contenere almeno 8 caratteri")
         private String password;
 
         public String getId() { return id; }
@@ -67,8 +83,12 @@ public class AuthController {
 
     
     public static class LoginPayload {
+        @NotBlank(message = "Lo username è obbligatorio")
         private String username;
+
+        @NotBlank(message = "La password è obbligatoria")
         private String password;
+
 
         public String getUsername() { return username; }
         public void setUsername(String username) { this.username = username; }

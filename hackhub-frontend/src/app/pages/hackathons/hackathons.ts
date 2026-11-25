@@ -16,6 +16,7 @@ export class Hackathons implements OnInit {
   loading = true;
   error = '';
   userRole: string | null = null;
+  editError = '';
 
   constructor(
     private hackathonService: HackathonService,
@@ -43,6 +44,8 @@ export class Hackathons implements OnInit {
   }
 
   editHackathonName(hackathon: any): void {
+    this.editError = '';
+
     const newName = prompt(
       'Inserisci il nuovo nome dell’hackathon:',
       hackathon.name
@@ -63,7 +66,8 @@ export class Hackathons implements OnInit {
       },
       error: (err) => {
         console.error('Errore modifica hackathon:', err);
-        alert('Impossibile modificare il nome dell’hackathon.');
+        this.editError = 'Impossibile modificare il nome dell’hackathon. Riprova.';
+        this.cdr.detectChanges();
       }
     });
   }
