@@ -44,7 +44,9 @@ export class Register {
         console.error('Errore durante la registrazione:', error);
 
         if (error.status === 400) {
-          this.errorMessage = 'I dati inseriti non sono validi o l’utente esiste già.';
+          this.errorMessage = 'Controlla i dati inseriti: alcuni non sono validi.';
+        } else if (error.status === 409) {
+          this.errorMessage = 'Email o username già registrati.';
         } else if (error.status === 0) {
           this.errorMessage = 'Impossibile contattare il server. Riprova più tardi.';
         } else {
