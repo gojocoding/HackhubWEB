@@ -9,11 +9,9 @@ import jakarta.persistence.Table;
 
 @PrimaryKeyJoinColumn(name = "id")
 public class Mentor extends StaffMember {
-
     public Mentor() {
         super();
     }
-
     public Mentor(String id, User user, String hackathonId) {
         super(id, user, hackathonId);
     }
