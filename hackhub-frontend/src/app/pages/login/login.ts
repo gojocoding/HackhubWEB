@@ -31,7 +31,7 @@ export class Login {
         console.log('Login completato!');
         console.log('Ruolo utente:', this.authService.getUserRole());
 
-        this.router.navigate(['/hackathons']);
+        this.router.navigate(['/hackathons'], { replaceUrl: true });
       },
       error: (error) => {
         console.error('Errore durante il login:', error);

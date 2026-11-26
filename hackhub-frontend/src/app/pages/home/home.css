@@ -70,6 +70,7 @@ a {
 
 .login-btn {
   color: #dbe3f5;
+  cursor: pointer;
 }
 
 .register-btn,

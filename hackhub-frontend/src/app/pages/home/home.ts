@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-home',
@@ -9,4 +10,16 @@ import { RouterLink } from '@angular/router';
 })
 export class Home {
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  goToAccess(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/hackathons']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
 }
