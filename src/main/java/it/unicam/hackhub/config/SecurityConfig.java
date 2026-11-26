@@ -43,6 +43,9 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) ->
                                 response.sendError(401, "Non autenticato")
                         )
+                        .accessDeniedHandler((request, response, accessDeniedException) ->
+                                response.sendError(403, "Accesso negato")
+                        )
                 )
 
                 .authorizeHttpRequests(auth -> auth
