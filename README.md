@@ -10,11 +10,11 @@ Il sistema consente la registrazione e l'autenticazione degli utenti, la consult
 
 Il progetto è stato sviluppato adottando un'architettura client-server, con separazione tra Frontend e Backend, comunicanti attraverso API REST.
 
-2. Tecnologie utilizzate
+<h2>2. Tecnologie utilizzate</h2>
 
 Il progetto utilizza uno stack tecnologico basato su Java e Spring Boot per il Backend e Angular per il Frontend.
 
-Backend
+<h3>Backend</h3>
 
 Java 21
 
@@ -32,7 +32,7 @@ JWT (JSON Web Token)
 
 BCrypt
 
-Frontend
+<h3>Frontend</h3>
 
 Angular 22
 
@@ -46,19 +46,19 @@ Angular Router
 
 Angular HttpClient
 
-Database
+<h3>Database</h3>
 
 MySQL
 
 Persistenza relazionale tramite Spring Data JPA e Hibernate.
 
-3. Architettura del sistema
+<h2>3. Architettura del sistema</h2>
 
 HackHub adotta un'architettura a livelli (Layered Architecture) per il Backend e un'architettura basata su componenti e servizi per il Frontend.
 
 I due livelli applicativi comunicano tramite richieste HTTP verso endpoint REST.
 
-3.1 BACKEND – SPRING BOOT
+<h3>3.1 Backend – Spring Boot</h3>
 
 Il Backend è responsabile della gestione della logica applicativa, della persistenza dei dati e della sicurezza delle operazioni.
 
@@ -76,7 +76,7 @@ Security: contiene la configurazione di Spring Security, la gestione dei ruoli e
 
 Questa organizzazione permette di mantenere separata la logica di presentazione dalla logica applicativa e dall'accesso ai dati.
 
-3.2 FRONTEND – ANGULAR
+<h3>3.2 Frontend – Angular</h3>
 
 Il Frontend è sviluppato utilizzando Angular e segue il paradigma Single Page Application (SPA).
 
@@ -96,7 +96,7 @@ Interceptors: aggiungono automaticamente il token JWT all'header Authorization d
 
 La separazione tra componenti e servizi consente di mantenere il codice organizzato e facilita la manutenzione dell'interfaccia.
 
-4. Autenticazione e sicurezza – JWT
+<h2>4. Autenticazione e sicurezza – JWT</h2>
 
 Per la gestione dell'autenticazione è stato implementato un sistema stateless basato su JSON Web Token (JWT).
 
@@ -118,7 +118,7 @@ Il Backend verifica la firma e la scadenza del token attraverso un filtro person
 
 L'utilizzo di un'autenticazione stateless evita la necessità di mantenere sessioni applicative lato server.
 
-4.1 Protezione delle password
+<h3>4.1 Protezione delle password</h3>
 
 Le password degli utenti non vengono memorizzate in chiaro nel database.
 
@@ -126,19 +126,19 @@ Per la protezione delle credenziali viene utilizzato BCrypt, tramite l'interfacc
 
 Durante la registrazione viene generato l'hash della password, mentre durante il login viene utilizzato il metodo matches() per verificarne la corrispondenza.
 
-4.2 Autorizzazione basata sui ruoli
+<h3>4.2 Autorizzazione basata sui ruoli</h3>
 
 Il sistema distingue due ruoli:
 
-USER: utente registrato.
+<b>USER</b>: utente registrato.
 
-ADMIN: amministratore della piattaforma.
+<b>ADMIN</b>:  amministratore della piattaforma.
 
 Le autorizzazioni vengono applicate anche lato Backend attraverso Spring Security, impedendo l'esecuzione di operazioni non consentite anche quando vengono inviate richieste direttamente alle API.
 
-5. Funzionalità applicative
+<h2>5. Funzionalità applicative</h2>
 
-5.1 GESTIONE DEGLI HACKATHON
+<h3>5.1 GESTIONE DEGLI HACKATHON</h3>
 
 La piattaforma permette agli utenti autenticati di consultare gli hackathon disponibili.
 
@@ -152,7 +152,7 @@ Gestione delle informazioni e degli stati degli eventi.
 
 La creazione di un hackathon prevede anche l'associazione automatica dell'utente amministratore come Organizer, senza richiedere al Frontend di specificarne manualmente l'identificativo.
 
-5.2 GESTIONE DEI TEAM
+<h3>5.2 Gestione dei team</h3>
 
 Gli utenti con ruolo USER possono creare un nuovo team attraverso l'interfaccia Angular.
 
@@ -166,7 +166,7 @@ Il creatore viene associato al team con il ruolo LEADER.
 
 Vengono effettuati controlli per evitare la creazione di team con nomi duplicati e per impedire che un utente appartenga a più team.
 
-5.3 GESTIONE DEGLI STATI
+<h3>5.3 GESTIONE DEGLI STATI</h3>
 
 Gli hackathon prevedono differenti stati applicativi, rappresentati attraverso classi dedicate.
 
@@ -182,7 +182,7 @@ ConclusoState
 
 Questa organizzazione permette di rappresentare le diverse fasi del ciclo di vita di un hackathon attraverso una gestione basata sullo stato dell'evento.
 
-6. Validazione e gestione degli errori
+<h2>6. Validazione e gestione degli errori</h2>
 
 La validazione dei dati viene effettuata principalmente lato Backend, attraverso le funzionalità di Spring Boot e Jakarta Validation.
 
@@ -218,31 +218,31 @@ Conflict – conflitto con lo stato dei dati
 
 Internal Server Error – errore interno del server
 
-7. Sicurezza delle API e protezione dei dati
+<h2>7. Sicurezza delle API e protezione dei dati</h2>
 
 Durante lo sviluppo sono state considerate alcune delle principali vulnerabilità delle applicazioni web.
 
-7.1 SQL Injection
+<h3>7.1 SQL Injection</h3>
 
 L'accesso ai dati viene gestito attraverso Spring Data JPA e i metodi derivati dei Repository, evitando la costruzione manuale di query SQL attraverso concatenazioni di stringhe.
 
 Sono state effettuate prove manuali con input contenenti caratteri e istruzioni tipiche di tentativi di SQL Injection.
 
-7.2 Cross-Site Scripting (XSS)
+<h3>7.2 Cross-Site Scripting (XSS)</h3>
 
 Il Frontend utilizza l'interpolazione standard di Angular per visualizzare i dati dinamici, sfruttando i meccanismi di escaping automatico del framework.
 
 Sono state effettuate verifiche manuali utilizzando payload HTML e JavaScript nei campi di input e controllando il comportamento della loro visualizzazione nell'interfaccia.
 
-7.3 CORS
+<h3>7.3 CORS</h3>
 
 È stata configurata una policy CORS per consentire la comunicazione tra il Backend e il Frontend durante lo sviluppo locale, limitando l'origine, i metodi HTTP e gli header ammessi.
 
-7.4 Protezione degli endpoint
+<h3>7.4 Protezione degli endpoint</h3>
 
 Le operazioni riservate vengono protette lato Backend attraverso regole di autorizzazione basate sui ruoli, oltre alla verifica dell'autenticazione JWT.
 
-8. Persistenza dei dati – MySQL
+<h2>8. Persistenza dei dati – MySQL</h2>
 
 Per la persistenza dei dati viene utilizzato MySQL, un database relazionale.
 
@@ -252,9 +252,9 @@ La configurazione del progetto utilizza Hibernate per la gestione dello schema e
 
 Durante l'inizializzazione dell'applicazione vengono inoltre creati alcuni dati dimostrativi, tra cui utenti e hackathon, qualora le rispettive tabelle risultino vuote.
 
-9. Configurazione e avvio del progetto
+<h2>9. Configurazione e avvio del progetto</h2>
 
-9.1 Prerequisiti
+<h3>9.1 Prerequisiti</h3>
 
 Per eseguire HackHub in ambiente locale sono necessari:
 
@@ -268,13 +268,13 @@ MySQL Server.
 
 IntelliJ IDEA o un IDE equivalente.
 
-9.2 Configurazione del database
+<h3>9.2 Configurazione del database</h3>
 
 Creare il database MySQL:
 
 CREATE DATABASE hackhub_db;
 
-9.3 Configurazione delle variabili d'ambiente
+<h3>9.3 Configurazione delle variabili d'ambiente</h3>
 
 Il Backend utilizza le seguenti variabili d'ambiente:
 
@@ -284,7 +284,7 @@ JWT_SECRET_BASE64=chiave_segreta_base64
 
 Queste variabili devono essere configurate nell'ambiente di esecuzione del Backend.
 
-9.4 Avvio del Backend
+<h3>9.4 Avvio del Backend</h3>
 
 Dalla cartella contenente il file pom.xml eseguire:
 
@@ -294,7 +294,7 @@ Il Backend sarà disponibile all'indirizzo:
 
 http://localhost:8080
 
-9.5 Avvio del Frontend
+<h3>9.5 Avvio del Frontend</h3>
 
 Dalla cartella hackhub-frontend eseguire:
 
@@ -305,7 +305,7 @@ Il Frontend sarà disponibile all'indirizzo:
 
 http://localhost:4200
 
-10. Account dimostrativi
+<h2>10. Account dimostrativi</h2>
 
 All'avvio dell'applicazione, se il database non contiene utenti, vengono inseriti automaticamente alcuni account dimostrativi.
 
@@ -317,7 +317,7 @@ password123
 
 Queste credenziali sono destinate esclusivamente alla dimostrazione e alla verifica delle funzionalità del progetto.
 
-11. Conclusioni
+<h2>11. Conclusioni</h2>
 
 HackHub rappresenta un progetto full-stack sviluppato con l'obiettivo di applicare concretamente le principali tecnologie utilizzate nello sviluppo di applicazioni web moderne.
 
