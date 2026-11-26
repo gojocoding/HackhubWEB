@@ -1,6 +1,6 @@
 <h1>HackHub – Relazione tecnica del progetto</h1>
 
-1. Introduzione
+<h3>1. Introduzione</h3>
 
 HackHub è una piattaforma web full-stack progettata per la gestione degli hackathon e delle attività collaborative associate.
 
