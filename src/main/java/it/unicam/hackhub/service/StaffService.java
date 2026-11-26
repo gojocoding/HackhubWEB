@@ -1,9 +1,6 @@
 package it.unicam.hackhub.service;
 
-import it.unicam.hackhub.model.StaffMember;
-import it.unicam.hackhub.model.Organizer;
-import it.unicam.hackhub.model.Mentor;
-import it.unicam.hackhub.model.Judge;
+import it.unicam.hackhub.model.*;
 import it.unicam.hackhub.repository.StaffRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +41,16 @@ public class StaffService {
             throw new IllegalStateException("L'utente non ha i permessi di Giudice");
         }
         return (Judge) member;
+    }
+
+    @Transactional
+    public Organizer createOrganizer(User user, String hackathonId) {
+        Organizer organizer = new Organizer(
+                java.util.UUID.randomUUID().toString(),
+                user,
+                hackathonId
+        );
+
+        return (Organizer) staffRepo.save(organizer);
     }
 }

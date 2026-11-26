@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { HackathonService } from '../../services/hackathon';
 import { AuthService } from '../../services/auth';
+import { TeamService } from '../../services/team';
 
 @Component({
   selector: 'app-hackathons',
@@ -22,7 +23,9 @@ export class Hackathons implements OnInit {
     private hackathonService: HackathonService,
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
+    private teamService: TeamService,
     private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +74,68 @@ export class Hackathons implements OnInit {
       }
     });
   }
+
+  createHackathon(): void {
+    const name = prompt('Inserisci il nome del nuovo hackathon:');
+
+    if (name === null || name.trim() === '') {
+      return;
+    }
+
+    const specifications = prompt('Inserisci una descrizione per l’hackathon:');
+
+    if (specifications === null) {
+      return;
+    }
+
+    const id = crypto.randomUUID();
+
+    this.hackathonService.createHackathon(
+      id,
+      name.trim(),
+      specifications.trim()
+    ).subscribe({
+      next: () => {
+        alert('Hackathon creato con successo!');
+        this.hackathonService.getAllHackathons().subscribe({
+          next: (data) => {
+            this.hackathons = data;
+            this.cdr.detectChanges();
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Errore creazione hackathon:', err);
+        alert('Impossibile creare l’hackathon. ' + (err.error || 'Riprova.'));
+      }
+    });
+  }
+
+  createTeam(): void {
+    const name = prompt('Inserisci il nome del nuovo team:');
+
+    if (name === null || name.trim() === '') {
+      return;
+    }
+
+    const id = crypto.randomUUID();
+
+    this.teamService.createTeam(id, name.trim()).subscribe({
+      next: () => {
+        alert('Team creato con successo!');
+      },
+      error: (err) => {
+        console.error('Errore creazione team:', err);
+
+        const message = typeof err.error === 'string'
+          ? err.error
+          : 'Impossibile creare il team. Riprova.';
+
+        alert(message);
+      }
+    });
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);

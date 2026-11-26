@@ -7,6 +7,22 @@
     <p>Scopri le sfide, trova nuove opportunità e mettiti alla prova!</p>
   </header>
 
+  @if (userRole === 'ADMIN') {
+  <div class="creation-actions">
+    <button class="create-button" (click)="createHackathon()">
+      Crea Hackathon
+    </button>
+  </div>
+  }
+
+  @if (userRole === 'USER') {
+  <div class="creation-actions">
+    <button class="create-button" (click)="createTeam()">
+      Crea Team
+    </button>
+  </div>
+  }
+
   @if (loading) {
   <p class="message">Caricamento degli hackathon...</p>
   }

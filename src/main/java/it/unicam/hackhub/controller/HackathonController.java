@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import it.unicam.hackhub.repository.UserRepository;
+import it.unicam.hackhub.model.User;
+import java.util.NoSuchElementException;
 
 import java.util.List;
 
@@ -17,22 +21,33 @@ import java.util.List;
 public class HackathonController {
     
     private final HackathonService hackathonService;
+    private final UserRepository userRepository;
 
-    public HackathonController(HackathonService hackathonService) {
+    public HackathonController(HackathonService hackathonService, UserRepository userRepository) {
         this.hackathonService = hackathonService;
+        this.userRepository = userRepository;
     }
 
 
     @PostMapping("/hackathons")
-    public ResponseEntity<String> createHackathon(@RequestBody HackathonController.HackathonCreationPayload payload) {
+    public ResponseEntity<String> createHackathon(
+            @RequestBody HackathonCreationPayload payload,
+            @AuthenticationPrincipal String userId) {
         try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new NoSuchElementException("Utente non trovato"));
+
             Hackathon h = hackathonService.createHackathon(
                     payload.getId(),
                     payload.getName(),
                     payload.getSpecifications(),
-                    payload.getOrganizerId()
+                    user
             );
-            return ResponseEntity.ok("SYSTEM [SUCCESS]: Hackathon '" + h.getName() + "' creato dall'organizzatore.");
+
+            return ResponseEntity.ok(
+                    "SYSTEM [SUCCESS]: Hackathon '" + h.getName() + "' creato dall'organizzatore."
+            );
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("SYSTEM [ERRORE]: " + e.getMessage());
         }
@@ -172,7 +187,6 @@ public class HackathonController {
         private String id;
         private String name;
         private String specifications;
-        private String organizerId;
 
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }
@@ -180,8 +194,6 @@ public class HackathonController {
         public void setName(String name) { this.name = name; }
         public String getSpecifications() { return specifications; }
         public void setSpecifications(String specifications) { this.specifications = specifications; }
-        public String getOrganizerId() { return organizerId; }
-        public void setOrganizerId(String organizerId) { this.organizerId = organizerId; }
     }
 
 

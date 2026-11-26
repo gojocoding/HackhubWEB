@@ -22,4 +22,15 @@ export class HackathonService {
       { responseType: 'text' }
     );
   }
+  createHackathon(
+    id: string,
+    name: string,
+    specifications: string
+  ): Observable<string> {
+    return this.http.post(
+      `${this.apiUrl}/hackathons`,
+      { id, name, specifications },
+      { responseType: 'text' }
+    );
+  }
 }

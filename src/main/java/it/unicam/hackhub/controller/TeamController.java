@@ -2,9 +2,12 @@ package it.unicam.hackhub.controller;
 
 import it.unicam.hackhub.model.Team;
 import it.unicam.hackhub.model.User;
+import it.unicam.hackhub.repository.UserRepository;
 import it.unicam.hackhub.service.TeamService;
 import it.unicam.hackhub.service.HackathonService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import java.util.NoSuchElementException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,27 +16,35 @@ public class TeamController {
     
     private final TeamService teamService;
     private final HackathonService hackathonService;
+    private final UserRepository userRepository;
 
-    public TeamController(TeamService teamService, HackathonService hackathonService) {
+    public TeamController(TeamService teamService, HackathonService hackathonService, UserRepository userRepository) {
         this.teamService = teamService;
         this.hackathonService = hackathonService;
+        this.userRepository = userRepository;
     }
 
-    
-    @PostMapping
-    public ResponseEntity<?> creaTeam(@RequestBody TeamCreationRequest request) {
-        try {
-           
-            System.out.println("Ricevuta richiesta per team: " + request.getName());
 
-           
-            if(request.getCreatore() == null) {
-                return ResponseEntity.badRequest().body("Creatore mancante nel JSON!");
-            }
-            Team nuovoTeam = teamService.createTeam(request.getId(), request.getName(), request.getCreatore());
+    @PostMapping
+    public ResponseEntity<?> creaTeam(
+            @RequestBody TeamCreationRequest request,
+            @AuthenticationPrincipal String userId) {
+        try {
+            User creatore = userRepository.findById(userId)
+                    .orElseThrow(() -> new NoSuchElementException("Utente non trovato"));
+
+            Team nuovoTeam = teamService.createTeam(
+                    request.getId(),
+                    request.getName(),
+                    creatore
+            );
+
             return ResponseEntity.ok(nuovoTeam);
+
         } catch (IllegalArgumentException | IllegalStateException e) {
-            return ResponseEntity.badRequest().body("ISCRIZIONE [ERRORE]: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
@@ -57,18 +68,14 @@ public class TeamController {
         }
     }
 
-    
+
     public static class TeamCreationRequest {
         private String id;
         private String name;
-        private User creatore;
 
-   
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }
         public String getName() { return name; }
         public void setName(String name) { this.name = name; }
-        public User getCreatore() { return creatore; }
-        public void setCreatore(User creatore) { this.creatore = creatore; }
     }
 }

@@ -60,6 +60,16 @@ public class SecurityConfig {
                                 "/api/hackathons/*/name"
                         ).hasRole("ADMIN")
 
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/hackathons/hackathons"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/teams"
+                        ).hasRole("USER")
+
                         .anyRequest().authenticated()
                 )
 

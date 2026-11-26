@@ -31,7 +31,12 @@ public class HackathonService {
     }
 
     @Transactional
-    public Hackathon createHackathon(String id, String name, String specifications, String organizerId) {
+    public Hackathon createHackathon(
+            String id,
+            String name,
+            String specifications,
+            User user
+    ) {
         if (id == null || id.isBlank() || name == null || name.isBlank()) {
             throw new IllegalArgumentException("Campi non compilati o formato non valido");
         }
@@ -40,16 +45,16 @@ public class HackathonService {
             throw new IllegalStateException("Hackathon già esistente");
         }
 
-        Organizer organizer = staffService.getOrganizer(organizerId);
-
         Hackathon hackathon = new BuilderHackathon()
                 .setId(id)
                 .setName(name)
                 .setSpecifications(specifications)
                 .build();
 
+        Organizer organizer = staffService.createOrganizer(user, id);
+
         hackathon.setOrganizer(organizer);
-        hackathon.setState(new InIscrizioneState()); 
+        hackathon.setState(new InIscrizioneState());
 
         repo.save(hackathon);
         return hackathon;
