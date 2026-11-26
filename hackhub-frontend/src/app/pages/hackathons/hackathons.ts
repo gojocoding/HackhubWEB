@@ -30,7 +30,6 @@ export class Hackathons implements OnInit {
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
-
     this.hackathonService.getAllHackathons().subscribe({
       next: (data) => {
         this.hackathons = data;
