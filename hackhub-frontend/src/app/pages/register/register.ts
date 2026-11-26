@@ -16,7 +16,6 @@ export class Register {
   username = '';
   email = '';
   password = '';
-  paymentInfo = '';
   errorMessage = '';
 
   constructor(
@@ -34,7 +33,6 @@ export class Register {
       username: this.username,
       email: this.email,
       password: this.password,
-      paymentInfo: this.paymentInfo
     }).subscribe({
       next: () => {
         console.log('Registrazione completata!');
